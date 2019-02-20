@@ -28,6 +28,10 @@ input[type=text]{
 	size: 3%;
 }
 
+input::placeholder{ 
+	font-size: 0.9em;
+}
+
 input[type=text]:hover {
   border: 3px solid darkred;
 }
