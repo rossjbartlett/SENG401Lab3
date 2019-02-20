@@ -1,0 +1,48 @@
+body{
+	background-color: #94B5EF;
+	font-family: Verdana;
+	font-size: 20px;
+}
+
+.form_div{
+	text-align: center;
+}
+
+form{
+	border: 4px solid #E8E9EC;
+	margin: 5px;
+	padding: 2px;
+	text-align: center;
+	display: inline-block;
+}
+
+input[type=text]{
+	display: inline-block;
+	width: 50%;
+	padding: 2% 5%;
+	margin: 3% 0px;
+	box-sizing: border-box;
+	border: 3px solid black;
+	border-radius: 10px;
+	color: black;
+	size: 3%;
+}
+
+input[type=text]:hover {
+  border: 3px solid darkred;
+}
+
+input[type=button]{
+	padding: 2% 5%;
+	margin: 3% 0px;
+	border-radius: 10px;
+	background-color: #D3D3D3;
+	border: 2px solid #D3D3D3;
+	font-family: Verdana;
+	font-size: 20px;
+}
+
+input[type=button]:hover{
+	border: 2px solid white;
+}
+
