@@ -66,20 +66,20 @@
 
 function fetchPhotos() {
   var xhttp = new XMLHttpRequest();
-	var format = document.querySelector('input[name="format"]:checked').value;
+	var format = $( "input[name=format]:checked" ).val();
 	xhttp.onreadystatechange = function() {
     	if (this.readyState == 4 && this.status == 200) {
-      		 document.getElementById("result").innerHTML = this.responseText;
+				$("#result").html(this.responseText);
     	}
 	};
   xhttp.open("POST", "getFlickrPhotos.php", true);
 	//Send the proper header information along with the request
 	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
 	//send the values in each of the input forms
-	xhttp.send("latitude1="+ document.getElementById("latitude1").value +
-				"&longitude1="+ document.getElementById("longitude1").value +
-				"&latitude2="+ document.getElementById("latitude2").value +
-				"&longitude2="+ document.getElementById("longitude2").value +
+	xhttp.send("latitude1="+ $("#latitude1").val() +
+				"&longitude1="+ $("#longitude1").val() +
+				"&latitude2="+ $("#latitude2").val() +
+				"&longitude2="+ $("#longitude2").val() +
 				"&format="+ format);
 }
 

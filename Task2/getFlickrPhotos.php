@@ -48,7 +48,7 @@ foreach($photos as $p){
     else if($format == 'JSON'){
         $output .= "$imgsrc<br><pre>" . print_r($p, true) . "</pre>";
     }
-    else echo "Error: unknown format: $format";
+    else $output .= "Error: unknown format: $format";
     $output .= '</div>';
     echo $output;
 }
