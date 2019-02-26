@@ -50,3 +50,9 @@ input[type=button]:hover{
 	border: 2px solid white;
 }
 
+#scrollButton {
+	position: fixed;
+	bottom: 25px;
+	right: 10px;
+	display: none; 
+}

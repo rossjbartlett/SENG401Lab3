@@ -3,7 +3,9 @@
 
 <head>
     <link rel="stylesheet" href="../styles.css">
-	<title>Task1</title>
+  <title>Task1</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="../scrollButton.js"></script>
 </head>
 
 <body>
@@ -36,6 +38,8 @@
 <hr>
 
 <div id="result"></div>
+
+<button type="button" id='scrollButton'>Back to Top</button>
 
 </body>
 

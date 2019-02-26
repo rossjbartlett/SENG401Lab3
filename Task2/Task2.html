@@ -5,37 +5,38 @@
 <link rel="stylesheet" href="../styles.css">
 	<title> SENG401 Lab3 </title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="../scrollButton.js"></script>
 	<script>
 		$(document).ready(function () {
-			$('.form_div input').keyup(function () {
-				var disableInput = false;
-				$(':text').each(function () {
-					var val = $(this).val();
-					var num = parseFloat(val);
-					if (val.length == 0 || isNaN(num)) {
-						disableInput = true;
-					}
-					else if ($(this).hasClass('lat') && (num < -90 || num > 90)) {
-						disableInput = true;
-					}
-					else if ($(this).hasClass('long') && (num < -180 || num > 180)) {
-						disableInput = true;
-					}
-					else {
-						//check left < right
-						var lats_are_safe = parseFloat($('#latitude1').val()) < parseFloat($('#latitude2').val());
-						var longs_are_safe = parseFloat($('#longitude1').val()) < parseFloat($('#longitude2').val());
-						disableInput = !(lats_are_safe && longs_are_safe);
-					}
+				$('.form_div input').keyup(function () {
+					var disableInput = false;
+					$(':text').each(function () {
+						var val = $(this).val();
+						var num = parseFloat(val);
+						if (val.length == 0 || isNaN(num)) {
+							disableInput = true;
+						}
+						else if ($(this).hasClass('lat') && (num < -90 || num > 90)) {
+							disableInput = true;
+						}
+						else if ($(this).hasClass('long') && (num < -180 || num > 180)) {
+							disableInput = true;
+						}
+						else {
+							//check left < right
+							var lats_are_safe = parseFloat($('#latitude1').val()) < parseFloat($('#latitude2').val());
+							var longs_are_safe = parseFloat($('#longitude1').val()) < parseFloat($('#longitude2').val());
+							disableInput = !(lats_are_safe && longs_are_safe);
+						}
 
-					if (disableInput) {
-						$('#submitButton').attr('disabled', 'disabled');
-					} else {
-						$('#submitButton').removeAttr('disabled');
-					}
+						if (disableInput) {
+							$('#submitButton').attr('disabled', 'disabled');
+						} else {
+							$('#submitButton').removeAttr('disabled');
+						}
+					});
 				});
-			});
-		});
+		});//end of doc.ready()
 	</script>
 
 </head>
@@ -59,6 +60,10 @@
 <br>
 <hr>
 <div id="result" ></div>
+
+
+<button type="button" id='scrollButton'>Back to Top</button>
+
 
 </body>
 
@@ -84,7 +89,7 @@ function fetchPhotos() {
 }
 
 $(document).ready(function() {
-    $('form').keydown(function(event) {
+    $('form').keypress(function(event) {
         if (event.which == 13) {
             this.form.submit();
             event.preventDefault();
