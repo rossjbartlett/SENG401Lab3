@@ -13,7 +13,6 @@
 				$(':text').each(function () {
 					var val = $(this).val();
 					var num = parseFloat(val);
-					console.log("val is " + val + " num is " + num);
 					if (val.length == 0 || isNaN(num)) {
 						disableInput = true;
 						return false; // breaks the .each() loop
