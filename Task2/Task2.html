@@ -2,40 +2,44 @@
 <html>
 
 <head>
-<link rel="stylesheet" href="../styles.css">
+	<link rel="stylesheet" href="../styles.css">
 	<title> SENG401 Lab3 </title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="../scrollButton.js"></script>
 	<script>
 		$(document).ready(function () {
-				$('.form_div input').keyup(function () {
-					var disableInput = false;
-					$(':text').each(function () {
-						var val = $(this).val();
-						var num = parseFloat(val);
-						if (val.length == 0 || isNaN(num)) {
-							disableInput = true;
-						}
-						else if ($(this).hasClass('lat') && (num < -90 || num > 90)) {
-							disableInput = true;
-						}
-						else if ($(this).hasClass('long') && (num < -180 || num > 180)) {
-							disableInput = true;
-						}
-						else {
-							//check left < right
-							var lats_are_safe = parseFloat($('#latitude1').val()) < parseFloat($('#latitude2').val());
-							var longs_are_safe = parseFloat($('#longitude1').val()) < parseFloat($('#longitude2').val());
-							disableInput = !(lats_are_safe && longs_are_safe);
-						}
-
-						if (disableInput) {
-							$('#submitButton').attr('disabled', 'disabled');
-						} else {
-							$('#submitButton').removeAttr('disabled');
-						}
-					});
-				});
+			$('.form_div input').keyup(function () {
+				var disableInput = false;
+				$(':text').each(function () {
+					var val = $(this).val();
+					var num = parseFloat(val);
+					console.log("val is " + val + " num is " + num);
+					if (val.length == 0 || isNaN(num)) {
+						disableInput = true;
+						return false; // breaks the .each() loop
+					}
+					else if ($(this).hasClass('lat') && (num < -90 || num > 90)) {
+						disableInput = true;
+						return false;
+					}
+					else if ($(this).hasClass('long') && (num < -180 || num > 180)) {
+						disableInput = true;
+						return false;
+					}
+					else {
+						//check left < right
+						var lats_are_safe = parseFloat($('#latitude1').val()) < parseFloat($('#latitude2').val());
+						var longs_are_safe = parseFloat($('#longitude1').val()) < parseFloat($('#longitude2').val());
+						disableInput = !(lats_are_safe && longs_are_safe);
+						if (disableInput) return false;
+					}
+				}); // end of .each()
+				if (disableInput) {
+					$('#submitButton').attr('disabled', 'disabled');
+				} else {
+					$('#submitButton').removeAttr('disabled');
+				}
+			});
 		});//end of doc.ready()
 	</script>
 
@@ -43,50 +47,54 @@
 
 <body>
 	<br>
-<div class="form_div">
-<form method=POST>
-	Bottom Left Latitude: <input type="text" id="latitude1" class="input lat" placeholder="value between -90 and +90"><br>
-	Bottom Left Longitude: <input type="text" id="longitude1" class="input long" placeholder="value between -180 and +180"><br>
-	Top Right Latitude: <input type="text" id="latitude2" class="input lat" placeholder="value between -90 and +90"><br>
-	Top Right Longitude: <input type="text" id="longitude2" class="input long" placeholder="value between -180 and +180"><br>
+	<div class="form_div">
+		<form method=POST>
+			Bottom Left Latitude: <input type="text" id="latitude1" class="input lat"
+				placeholder="value between -90 and +90"><br>
+			Bottom Left Longitude: <input type="text" id="longitude1" class="input long"
+				placeholder="value between -180 and +180"><br>
+			Top Right Latitude: <input type="text" id="latitude2" class="input lat"
+				placeholder="value between -90 and +90"><br>
+			Top Right Longitude: <input type="text" id="longitude2" class="input long"
+				placeholder="value between -180 and +180"><br>
 
-	Format:<br>
-	<input type="radio" name="format" value="photos" checked> Photos
-	<input type="radio" name="format" value="JSON"> JSON
+			Format:<br>
+			<input type="radio" name="format" value="photos" checked> Photos
+			<input type="radio" name="format" value="JSON"> JSON
+			<br>
+			<input type="button" id='submitButton' onclick="fetchPhotos()" value="Submit" disabled="disabled"><br>
+		</form>
+	</div>
 	<br>
-  <input type="button" id='submitButton' onclick="fetchPhotos()" value="Submit" disabled="disabled"><br>
-</form>
-</div>
-<br>
-<hr>
-<div id="result" ></div>
+	<hr>
+	<div id="result"></div>
 
 
-<button type="button" id='scrollButton'>Back to Top</button>
+	<button type="button" id='scrollButton'>Back to Top</button>
 
 
 </body>
 
 <script>
 
-function fetchPhotos() {
-  var xhttp = new XMLHttpRequest();
-	var format = $( "input[name=format]:checked" ).val();
-	xhttp.onreadystatechange = function() {
-    	if (this.readyState == 4 && this.status == 200) {
+	function fetchPhotos() {
+		var xhttp = new XMLHttpRequest();
+		var format = $("input[name=format]:checked").val();
+		xhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
 				$("#result").html(this.responseText);
-    	}
-	};
-  xhttp.open("POST", "getFlickrPhotos.php", true);
-	//Send the proper header information along with the request
-	xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded"); 
-	//send the values in each of the input forms
-	xhttp.send("latitude1="+ $("#latitude1").val() +
-				"&longitude1="+ $("#longitude1").val() +
-				"&latitude2="+ $("#latitude2").val() +
-				"&longitude2="+ $("#longitude2").val() +
-				"&format="+ format);
-}
+			}
+		};
+		xhttp.open("POST", "getFlickrPhotos.php", true);
+		//Send the proper header information along with the request
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		//send the values in each of the input forms
+		xhttp.send("latitude1=" + $("#latitude1").val() +
+			"&longitude1=" + $("#longitude1").val() +
+			"&latitude2=" + $("#latitude2").val() +
+			"&longitude2=" + $("#longitude2").val() +
+			"&format=" + format);
+	}
 
 
 </script>
